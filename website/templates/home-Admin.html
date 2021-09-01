@@ -1,0 +1,34 @@
+{% extends "base.html" %}{% block title %}HandyCloud - Admin{% endblock %}
+
+{% block content %}
+    <h1> HandyCloud - rezerwacja zasobów </h1>
+    <h3>Admin: </h3>
+
+    <form method="post" action="/main">
+
+        <div class="w-25">
+            <label for="time">Timer</label>
+            <input
+                    class="form-control"
+                    name="time"
+                    placeholder="Enter minutes <240"
+            />
+        </div>
+
+        <div align="center">
+
+            <input type="submit"
+                   value="create instance"
+                   class="btn btn-primary mb-3"
+                   name="action1"
+            />
+
+            <input type="submit"
+                   value="delete instance"
+                   class="btn btn-primary mb-3"
+                   name="action2"
+            />
+
+        </div>
+    </form>
+{% endblock %}
