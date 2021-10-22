@@ -1,13 +1,15 @@
-{% extends "base.html" %}{% block title %}HandyCloud - Admin{% endblock %}
+{% extends "base.html" %}{% block title %}RemoteEye - Admin{% endblock %}
+<script src="{{ url_for('static', filename='index.js') }}"></script>
 
 {% block content %}
-    <h1> HandyCloud - rezerwacja zasobów </h1>
+    <h1> RemoteEye - rezerwacja zasobów </h1>
     <h3>Admin: </h3>
 
-    <form method="post" action="/main">
+    <form method="post" action="/create-group">
 
         <div class="w-25">
             <label for="time">Timer</label>
+
             <input
                     class="form-control"
                     name="time"
@@ -30,42 +32,154 @@
             />
 
         </div>
+        {#  ------------------------------------------------------------------#}
         <div class="container">
             <div class="row">
-                <table class="table table-hover table-dark">
-                    <h2> Manage <b> Users </b></h2>
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">EMAIL</th>
-                        <th scope="col">NAME</th>
-                    </tr>
-                    </thead>
+                <div class="jumbotron p-3">
+                    <h2> Manage <b> Users </b>
+                        <button type="button"
+                                class="btn btn-primary float-right"
+                                data-toggle="modal"
+                                data-target="#mymodal">Create group
+                        </button>
+                    </h2>
 
-                    {% for user in users %}
+                    <table class="table table-hover table-dark">
+                        <thead>
                         <tr>
-                            <th scope="row">{{ user.id }}
-                            </th>
-                            <td>{{ user.email }}
-                            </td>
-                            <td>{{ user.first_name }}
-                            </td>
-                            <td>
-                                <a href="" class="btn btn-danger btn-xs float-right"
-                                   onclick="return confirm('Are you sure to delete?')">Delete</a>
-
-                                <a href="" class="btn btn-warning btn-xs float-right" data-toggle="modal"
-                                   data-target="#modaledit">Edit</a>
-
-                                <a href="" class="btn btn-success btn-xs float-right" data-toggle="modal"
-                                   data-target="#modaledit">Add user to group</a>
-
-                                <a href="" class="btn btn-primary btn-xs float-right" data-toggle="modal"
-                                   data-target="#modaledit">Change role</a>
-                            </td>
+                            <th scope="col"> #</th>
+                            <th scope="col"> EMAIL</th>
+                            <th scope="col"> NAME</th>
+                            <th scope="col"> ROLE</th>
                         </tr>
-                    {% endfor %}
-                </table>
+                        </thead>
+
+                        {% for user in users %}
+                            <tr>
+
+                                <th scope="row"> {{ user.id }} </th>
+                                <td> {{ user.email }} </td>
+                                <td> {{ user.first_name }} </td>
+                                <td> {{ user.role }} </td>
+
+                                <td>
+                                    <a href=""
+                                       class="btn btn-danger btn-xs float-right"
+                                       onclick="return confirm('Are you sure to delete?')">Delete</a>
+
+                                    <a href=""
+                                       class="btn btn-warning btn-xs float-right"
+                                       data-toggle="modal"
+                                       data-target="#modaledit">Edit</a>
+
+                                    <a href=""
+                                       class="btn btn-success btn-xs float-right"
+                                       data-toggle="modal"
+                                       data-target="#modaledit">Add user to group</a>
+
+                                    <a href=""
+                                       class="btn btn-primary btn-xs float-right"
+                                       data-toggle="modal"
+                                       data-target="#change_role"
+                                       id="button_change_role-{{ user.id }}"
+                                       onclick="sendIdButton(this.id)">Change role</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {#  ------------------------------------------------------------------#}
+                <div class="jumbotron p-3">
+                    <h2> Manage <b> Group </b></h2>
+                    <table class="table table-hover table-dark">
+
+                        <thead>
+                        <tr>
+                            <th scope="col"> #</th>
+                            <th scope="col"> GROUPS</th>
+                        </tr>
+                        </thead>
+
+                        {% for group in groups %}
+                            <tr>
+
+                                <th scope="row"> {{ group.id }} </th>
+                                <td> {{ group.name_group }} </td>
+
+                                <td>
+                                    <a href="" class="btn btn-danger btn-xs float-right"
+                                       onclick="return confirm('Are you sure to delete?')">Delete</a>
+
+                                    <a href="" class="btn btn-warning btn-xs float-right" data-toggle="modal"
+                                       data-target="#modaledit">Edit</a>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {#  ------------------------------------------------------------------#}
+                <div id="mymodal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <h4 class="modal-title">New group</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <form action="{{ url_for('views.create_group') }}" method="POST">
+
+                                    <div class="form-group">
+                                        <label>Name:</label>
+                                        <input type="text" class="form-control" name="name" required="4">
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button class="btn btn-primary float-right" type="submit">Create group</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {#  ------------------------------------------------------------------#}
+                <div id="change_role" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <h4 class="modal-title">Choose role</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <select class="form-select form-select-lg mb-3"
+                                        aria-label=".form-select-lg example"
+                                        id="change role">
+                                    <option value="Student" name="role_Student">Student</option>
+                                    <option value="Professor" name="role_Professor">Professor</option>
+                                    <option value="Admin" name="role_name">Admin</option>
+                                </select>
+                                <button class="btn btn-primary float-right" onclick="onRoleChange()">Change role
+                                </button>
+
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

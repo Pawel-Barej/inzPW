@@ -7,12 +7,11 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
-
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=0.5) #Auto wylogowanie po 5 minutach
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60) #Auto wylogowanie po 5 minutach
     db.init_app(app)
 
     from .views import views
@@ -21,7 +20,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import User
+    from .models import User, Group, UserInGroup
 
     create_database(app)
 

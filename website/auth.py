@@ -1,14 +1,17 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
+
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
-
 auth = Blueprint('auth', __name__)
+
 
 @auth.route('/', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('views.get_main_page'))
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -20,7 +23,7 @@ def login():
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=False)
 
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.get_main_page'))
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
@@ -33,6 +36,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    print(current_user.is_authenticated)
     return redirect(url_for('auth.login'))
 
 
@@ -62,6 +66,6 @@ def sign_up():
             db.session.commit()
             login_user(new_user, remember=True)
             flash('Account created!', category='success')
-            return redirect(url_for('views.home'))
+            return redirect(url_for('views.get_main_page'))
 
     return render_template("sign_up.html", user=current_user)
