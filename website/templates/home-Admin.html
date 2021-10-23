@@ -89,35 +89,37 @@
                     </table>
                 </div>
                 {#  ------------------------------------------------------------------#}
-                <div class="jumbotron p-3">
-                    <h2> Manage <b> Group </b></h2>
-                    <table class="table table-hover table-dark">
+                {% if user_has_permission("table_users") %}
+                    <div class="jumbotron p-3">
+                        <h2> Manage <b> Group </b></h2>
+                        <table class="table table-hover table-dark">
 
-                        <thead>
-                        <tr>
-                            <th scope="col"> #</th>
-                            <th scope="col"> GROUPS</th>
-                        </tr>
-                        </thead>
-
-                        {% for group in groups %}
+                            <thead>
                             <tr>
-
-                                <th scope="row"> {{ group.id }} </th>
-                                <td> {{ group.name_group }} </td>
-
-                                <td>
-                                    <a href="" class="btn btn-danger btn-xs float-right"
-                                       onclick="return confirm('Are you sure to delete?')">Delete</a>
-
-                                    <a href="" class="btn btn-warning btn-xs float-right" data-toggle="modal"
-                                       data-target="#modaledit">Edit</a>
-
-                                </td>
+                                <th scope="col"> #</th>
+                                <th scope="col"> GROUPS</th>
                             </tr>
-                        {% endfor %}
-                    </table>
-                </div>
+                            </thead>
+
+                            {% for group in groups %}
+                                <tr>
+
+                                    <th scope="row"> {{ group.id }} </th>
+                                    <td> {{ group.name_group }} </td>
+
+                                    <td>
+                                        <a href="" class="btn btn-danger btn-xs float-right"
+                                           onclick="return confirm('Are you sure to delete?')">Delete</a>
+
+                                        <a href="" class="btn btn-warning btn-xs float-right" data-toggle="modal"
+                                           data-target="#modaledit">Edit</a>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
                 {#  ------------------------------------------------------------------#}
                 <div id="mymodal" class="modal fade" role="dialog">
                     <div class="modal-dialog">

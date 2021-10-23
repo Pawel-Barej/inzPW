@@ -36,7 +36,6 @@ def login():
 @login_required
 def logout():
     logout_user()
-    print(current_user.is_authenticated)
     return redirect(url_for('auth.login'))
 
 
