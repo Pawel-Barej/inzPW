@@ -30,7 +30,7 @@ def create_group():
         elif len(group) < 3:
             flash('Name is too short', category='error')
         else:
-            new_group = Group(name_group=group)
+            new_group = Group(name_group=group,owner_id = current_user.id)
             db.session.add(new_group)
             db.session.commit()
             flash('New group added', category='success')
@@ -46,8 +46,8 @@ def create_group():
 def change_role():
     if request.method == 'POST':
         role = request.form.get('role')
-        id_button = request.form.get('idButton')
-        user = User.query.filter_by(id=int(id_button)).first()
+        id_button_for_user = request.form.get('idButtonForUser')
+        user = User.query.filter_by(id=int(id_button_for_user)).first()
         user.role=role
         db.session.commit()
 

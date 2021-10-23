@@ -5,15 +5,11 @@ class UserInGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
-    name_group = db.Column(db.String(150))
-    email = db.Column(db.String(150), unique=True)
-    role = db.Column(db.String)
-
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     name_group = db.Column(db.String(150))
-
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
