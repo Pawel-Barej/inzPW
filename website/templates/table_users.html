@@ -39,7 +39,11 @@
                         <a href=""
                            class="btn btn-success btn-xs float-right"
                            data-toggle="modal"
-                           data-target="#modaledit">Add user to group</a>
+                           data-target="#add_user_to_group"
+                           id="button_add_user_to_group-{{ user.id }}"
+                           onclick="sendIdButtonForUser(this.id)">Add user to group</a>
+
+
                         {% if user_has_permission("change_role") %}
                             <a href=""
                                class="btn btn-primary btn-xs float-right"

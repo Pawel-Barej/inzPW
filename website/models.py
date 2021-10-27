@@ -8,7 +8,7 @@ class UserInGroup(db.Model):
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    id_owner = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     name_group = db.Column(db.String(150))
 
 class User(db.Model, UserMixin):

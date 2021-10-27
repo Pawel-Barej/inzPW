@@ -1,17 +1,19 @@
+{% if user_has_permission("groups_for_current_professor") %}
     <div class="jumbotron p-3">
-        <h2> Manage <b> Group </b></h2>
+        <h2> This is your <b> groups </b></h2>
         <table class="table table-hover table-dark">
 
             <thead>
             <tr>
                 <th scope="col"> #</th>
-                <th scope="col"> Students</th>
+                <th scope="col"> Name</th>
             </tr>
             </thead>
 
-            {% for group in groups %}
+            {% for group in groups_for_current_professor %}
                 <tr>
-                    <th scope="row"> {{ group.id }} </th>
+                    <th scope="row"> {{ loop.index }}
+                    <th>
                     <td> {{ group.name_group }} </td>
 
                     <td>
@@ -26,3 +28,4 @@
             {% endfor %}
         </table>
     </div>
+{% endif %}

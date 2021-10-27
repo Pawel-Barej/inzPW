@@ -1,0 +1,34 @@
+<div id="add_user_to_group" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Choose group</h4>
+            </div>
+            <div class="modal-body">
+                <container id="lol">
+                    {% for group in groups %}
+                        {% if group.id_owner==current_user.id %}
+                            <form action="/action_page.php">
+                                <input type="checkbox"
+                                       id="checkbox_add_user_to_group-{{ group.id }}"
+                                       value="{{ group.name_group }}">
+                                <label for=""> {{ group.name_group }}</label><br>
+                            </form>
+                            </container>
+                        {% endif %}
+                    {% endfor %}
+                <button class="btn btn-primary float-right"
+                        onclick="onAddToGroup()">Add user to group
+                </button>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
