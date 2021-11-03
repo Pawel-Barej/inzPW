@@ -26,11 +26,11 @@ def create_group():
     if user_has_permission("table_users"):
         if request.method == 'POST':
 
-            group = request.form.get('name')
+            group = request.form.get('nameForGroup')
             wrong_name_group = Group.query.filter_by(name_group=group).first()
 
             if wrong_name_group:
-                flash('This group already exists.', category='error')
+                flash('This group already exists.', category='error')  # Sprawdzić dlaczego nie działa
             elif len(group) < 3:
                 flash('Name is too short', category='error')
             else:
@@ -69,21 +69,15 @@ def add_user_to_group():
         list_of_groups = group.split(',')
         list_of_groups = list(filter(None, list_of_groups))
 
-
         for group in list_of_groups:
-                group_for_id = Group.query.filter_by(name_group=group).first()
-                group = group_for_id.id
-                print(db.session.query(UserInGroup).filter(UserInGroup.user_id.like(id_button_for_user),UserInGroup.group_id.like(group)).first())
-                if db.session.query(UserInGroup).filter(UserInGroup.user_id.like(id_button_for_user),UserInGroup.group_id.like(group)).first() != None:
-                    flash('This user already is in:', category='error')
-                else:
-                    flash('This user already is in:', category='error')
-                    connect_user_with_groups = UserInGroup(user_id=id_button_for_user, group_id=group_for_id.id)
-                    db.session.add(connect_user_with_groups)
-        db.session.commit()
-
-
-
-
+            group_for_id = Group.query.filter_by(name_group=group).first()
+            group = group_for_id.id
+            if db.session.query(UserInGroup).filter(UserInGroup.user_id.like(id_button_for_user),
+                                                    UserInGroup.group_id.like(group)).first() != None:
+                flash('This user already is in:', category='error')
+            else:
+                connect_user_with_groups = UserInGroup(user_id=id_button_for_user, group_id=group_for_id.id)
+                db.session.add(connect_user_with_groups)
+                db.session.commit()
 
     return get_main_page()

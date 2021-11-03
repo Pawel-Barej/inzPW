@@ -18,3 +18,8 @@ def show_groups_for_current_professor():
     results = filter(lambda group: group.id_owner == current_user.id, db.session.query(Group).all())
 
     return results
+
+def show_group_with_users():
+    result = 5
+
+    return result

@@ -1,4 +1,4 @@
-<div id="mymodal" class="modal fade" role="dialog">
+<div id="create-group-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,24 +6,26 @@
                 <h4 class="modal-title">New group</h4>
             </div>
             <div class="modal-body">
-
-                <form action="{{ url_for('views.create_group') }}" method="POST">
-
                     <div class="form-group">
                         <label>Name:</label>
-                        <input type="text" class="form-control" name="name" required="4">
+                        <input id="name-for-group"
+                               type="text"
+                               class="form-control">
 
                     </div>
 
                     <div class="form-group">
-                        <button class="btn btn-primary float-right" type="submit">Create group</button>
+                        <button class="btn btn-primary float-right"
+                                onclick="createGroup()">Create group
+                        </button>
 
                     </div>
-                </form>
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
 
             </div>
         </div>
