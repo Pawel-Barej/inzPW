@@ -15,6 +15,7 @@
             {% endfor %}
         </select>
 
+        {% if group_name %}
         <div class="container">
             <div class="row">
                 {% include "table-group-with-users.html" %}
@@ -22,5 +23,6 @@
 
             </div>
         </div>
+    {% endif %}
     </form>
 {% endblock %}

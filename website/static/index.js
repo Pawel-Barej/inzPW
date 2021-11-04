@@ -60,14 +60,7 @@ function createGroup() {
 
 function tableGroupWithUsers() {
     let nameGroup = document.getElementById("select-table-group-with-users").value;
-    const formData = new FormData();
-    formData.append("nameGroup", nameGroup)
-
-    fetch("/manage-groups/refresh-table", {
-        method: "PUT",
-        body: formData
-    }).then()
-
+    window.location.href = `/manage-groups/${nameGroup}`
 
 }
 
