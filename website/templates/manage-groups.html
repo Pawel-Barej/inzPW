@@ -1,0 +1,26 @@
+{% extends "base.html" %}{% block title %}RemotEye - Admin{% endblock %}
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+
+{% block content %}
+    <h1> Manage groups </h1>
+
+    <form method="get" action="/manage-groups">
+        <select class="form-select form-select-lg mb-3"
+                aria-label=".form-select-lg example"
+                id="select-table-group-with-users"
+                onchange="tableGroupWithUsers()">
+            {% for group in groups_for_current_professor %}
+                <option value="{{ group.name_group }}"
+                        id="{{ group.name_group }}">{{ group.name_group }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="container">
+            <div class="row">
+                {% include "table-group-with-users.html" %}
+
+
+            </div>
+        </div>
+    </form>
+{% endblock %}

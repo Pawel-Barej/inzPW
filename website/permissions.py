@@ -5,13 +5,15 @@ role_permissions = {
 
     "Professor": ["manage_instance",
                   "table_users",
-                  "groups_for_current_professor"],
+                  "groups_for_current_professor",
+                  "manage_groups"],
 
     "Admin": ["manage_instance",
               "table_users",
               "table_groups",
               "change_role",
-              "groups_for_current_professor"]
+              "groups_for_current_professor",
+              "manage_groups"]
 }
 
 

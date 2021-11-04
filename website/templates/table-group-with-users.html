@@ -1,0 +1,32 @@
+<div class="jumbotron p-3">
+
+    <table class="table table-hover table-dark">
+
+
+        <thead>
+        <tr>
+            <th scope="col"> #</th>
+            <th scope="col"> email</th>
+            <th scope="col"> name</th>
+        </tr>
+        </thead>
+        <h2> {{ group_name }} </h2>
+
+        {% for user in group_with_users %}
+            <tr>
+
+                <th scope="row"> {{ user.id }} </th>
+                <td> {{ user.email }} </td>
+                <td> {{ user.first_name }} </td>
+
+                <td>
+                    <a href="" class="btn btn-danger btn-xs float-right"
+                       onclick="return confirm('Are you sure to delete?')">Delete</a>
+
+                </td>
+            </tr>
+        {% endfor %}
+
+
+    </table>
+</div>

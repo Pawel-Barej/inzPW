@@ -1,5 +1,5 @@
 function onRoleChange() {
-    idButtonForUser = getIdButtonForUser()
+    let idButtonForUser = getIdButtonForUser()
     const optGroup = document.getElementById("change role")
     const formData = new FormData();
 
@@ -47,7 +47,7 @@ function onAddToGroup() {
 
 
 function createGroup() {
-    nameForGroup = document.getElementById("name-for-group").value;
+    let nameForGroup = document.getElementById("name-for-group").value;
     const formData = new FormData();
     formData.append("nameForGroup", nameForGroup)
 
@@ -55,6 +55,19 @@ function createGroup() {
         method: "POST",
         body: formData
     }).then(r => location.reload())
+
+}
+
+function tableGroupWithUsers() {
+    let nameGroup = document.getElementById("select-table-group-with-users").value;
+    const formData = new FormData();
+    formData.append("nameGroup", nameGroup)
+
+    fetch("/manage-groups/refresh-table", {
+        method: "PUT",
+        body: formData
+    }).then()
+
 
 }
 

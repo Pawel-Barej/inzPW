@@ -11,7 +11,7 @@ views = Blueprint('views', __name__)
 @views.route('/main', methods=['GET'])
 @login_required
 def get_main_page():
-    return render_template("home-Admin.html",
+    return render_template("home.html",
                            current_user=current_user,
                            users=show_users(),
                            groups=show_groups(),
