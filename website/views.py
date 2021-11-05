@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, Blueprint, render_template, request
 from flask_login import login_required, current_user
-from .models import Group, User, UserInGroup
+from .models import Group, User, User_in_group
 from . import db
 from .permissions import user_has_permission
 from .request_to_database import show_users, show_groups, show_groups_for_current_professor
@@ -72,11 +72,11 @@ def add_user_to_group():
         for group in list_of_groups:
             group_for_id = Group.query.filter_by(name_group=group).first()
             group = group_for_id.id
-            if db.session.query(UserInGroup).filter(UserInGroup.user_id.like(id_button_for_user),
-                                                    UserInGroup.group_id.like(group)).first() != None:
+            if db.session.query(User_in_group).filter(User_in_group.user_id.like(id_button_for_user),
+                                                      User_in_group.group_id.like(group)).first() != None:
                 flash('This user already is in:', category='error')
             else:
-                connect_user_with_groups = UserInGroup(user_id=id_button_for_user, group_id=group_for_id.id)
+                connect_user_with_groups = User_in_group(user_id=id_button_for_user, group_id=group_for_id.id)
                 db.session.add(connect_user_with_groups)
                 db.session.commit()
 

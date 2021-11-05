@@ -17,12 +17,14 @@ def create_app():
     from .views import views
     from .auth import auth
     from .manage_groups import manage_groups
+    from .assignments import assignments
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(manage_groups, url_prefix='/')
+    app.register_blueprint(assignments, url_prefix='/')
 
-    from .models import User, Group, UserInGroup
+    from .models import User, Group, User_in_group
 
     create_database(app)
 

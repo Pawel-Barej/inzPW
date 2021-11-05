@@ -1,5 +1,5 @@
 from flask_login import current_user
-from .models import Group, User, UserInGroup
+from .models import Group, User, User_in_group
 from . import db
 
 
@@ -22,7 +22,7 @@ def show_groups_for_current_professor():
 
 
 def get_group_with_users(name_group):
-    result = db.session.query(User.email, User.first_name).select_from(Group).join(UserInGroup).join(
+    result = db.session.query(User.email, User.first_name).select_from(Group).join(User_in_group).join(
         User).filter(
         Group.id_owner == current_user.id, Group.name_group == name_group).all()
 

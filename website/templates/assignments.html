@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% block title %}RemotEye - Admin{% endblock %}
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+
+{% block content %}
+    <table class="table table-hover table-dark">
+        <tr>
+            <td>
+                <div class="w-25">
+                    <label for="time">Timer</label>
+
+                    <input
+                            class="form-control"
+                            name="time"
+                            placeholder="Enter minutes <240"
+                    />
+                </div>
+
+                <div align="center">
+
+                    <input type="submit"
+                           value="create instance"
+                           class="btn btn-primary mb-3"
+                           name="action1"
+                    />
+
+                    <input type="submit"
+                           value="delete instance"
+                           class="btn btn-primary mb-3"
+                           name="action2"
+                    />
+
+                </div>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

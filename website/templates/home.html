@@ -1,37 +1,12 @@
-{% extends "base.html" %}{% block title %}RemotEye - Admin{% endblock %}
+{% extends "base.html" %}{% block title %}RemotEye - {{ current_user.role }}{% endblock %}
 <script src="{{ url_for('static', filename='index.js') }}"></script>
 
 {% block content %}
     <h1> RemotEye - rezerwacja zasobów </h1>
-    <h3>Admin: </h3>
+    <h3> {{ current_user.role }}: </h3>
 
     <form method="get" action="/main">
 
-        <div class="w-25">
-            <label for="time">Timer</label>
-
-            <input
-                    class="form-control"
-                    name="time"
-                    placeholder="Enter minutes <240"
-            />
-        </div>
-
-        <div align="center">
-
-            <input type="submit"
-                   value="create instance"
-                   class="btn btn-primary mb-3"
-                   name="action1"
-            />
-
-            <input type="submit"
-                   value="delete instance"
-                   class="btn btn-primary mb-3"
-                   name="action2"
-            />
-
-        </div>
         <div class="container">
             <div class="row">
                 {% include "table-users.html" %}
@@ -45,8 +20,6 @@
                 {% include "change-role-modal.html" %}
 
                 {% include "add-user-to-group-modal.html" %}
-
-
 
 
             </div>
