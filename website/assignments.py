@@ -6,7 +6,6 @@ from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
 from .permissions import user_has_permission
-from .request_to_database import show_groups_for_current_professor, get_group_with_users
 
 assignments = Blueprint('assignments', __name__)
 

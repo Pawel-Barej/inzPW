@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}RemotEye - Admin{% endblock %}
+{% extends "base.html" %}{% block title %}RemotEye - {{ current_user.role }}{% endblock %}
 <script src="{{ url_for('static', filename='index.js') }}"></script>
 
 {% block content %}
@@ -9,6 +9,8 @@
                 aria-label=".form-select-lg example"
                 id="select-table-group-with-users"
                 onchange="tableGroupWithUsers()">
+            <option value="choose-group"
+                    id="choose-group">Choose group</option>
             {% for group in groups_for_current_professor %}
                 <option value="{{ group.name_group }}"
                         id="{{ group.name_group }}">{{ group.name_group }}</option>
@@ -16,13 +18,13 @@
         </select>
 
         {% if group_name %}
-        <div class="container">
-            <div class="row">
-                {% include "table-group-with-users.html" %}
+            <div class="container">
+                <div class="row">
+                    {% include "table-group-with-users.html" %}
 
 
+                </div>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
     </form>
 {% endblock %}

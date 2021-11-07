@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}RemotEye - Admin{% endblock %}
+{% extends "base.html" %}{% block title %}RemotEye - {{ current_user.role }}{% endblock %}
 <script src="{{ url_for('static', filename='index.js') }}"></script>
 
 {% block content %}

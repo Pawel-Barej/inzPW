@@ -59,8 +59,22 @@ function createGroup() {
 }
 
 function tableGroupWithUsers() {
-    let nameGroup = document.getElementById("select-table-group-with-users").value;
+    let nameGroup = document.getElementById("select-table-group-with-users").value[0];
     window.location.href = `/manage-groups/${nameGroup}`
+
+}
+
+function uploadImage() {
+    const formData = new FormData();
+    let file = document.querySelector('[type=file]').files;
+    console.log(file)
+    formData.append("image", file)
+
+
+        fetch("/manage-groups", {
+        method: "POST",
+        body: formData
+    }).then()
 
 }
 

@@ -1,4 +1,6 @@
+<script src="{{ url_for('static', filename='index.js') }}"></script>
 <div class="jumbotron p-3">
+    {% include "create-assignments-modal.html" %}
 
     <table class="table table-hover table-dark">
 
@@ -10,12 +12,18 @@
             <th scope="col"> name</th>
         </tr>
         </thead>
-        <h2> {{ group_name }} </h2>
+        <h4> {{ group_name }}
+            <button type="button"
+                    class="btn btn-primary float-right"
+                    data-toggle="modal"
+                    data-target="#create-assignments-modal">Create assignments
+            </button>
+        </h4>
 
         {% for user in group_with_users %}
             <tr>
 
-                <th scope="row"> {{ user.id }} </th>
+                <th scope="row"> {{ loop.index }} </th>
                 <td> {{ user.email }} </td>
                 <td> {{ user.first_name }} </td>
 
@@ -26,7 +34,5 @@
                 </td>
             </tr>
         {% endfor %}
-
-
     </table>
 </div>

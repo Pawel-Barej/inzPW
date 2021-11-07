@@ -18,5 +18,21 @@ class User_in_group(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
 
+class Uploaded_vm_image(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    identifier = db.Column(db.String(50))
+    name = db.Column(db.String(50))
+    description = db.Column(db.String(150))
+    expiration_date = db.Column(db.Integer)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+class Assignment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(150))
+    uploaded_vm_image_id = db.Column(db.Integer)
+    creator_id = db.Column(db.Integer)
 
+class Users_assigned(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    assignment_id = db.Column(db.Integer, db.ForeignKey('assignment.id'))

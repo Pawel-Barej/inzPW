@@ -26,6 +26,23 @@ def import_image(conn):
                             method="website-download",
                             uri=uri)
 
+def upload_image(conn):
+    print("Upload Image:")
+
+    # Load fake image data for the example.
+    data = 'This is fake image data.'
+
+    # Build the image attributes and upload the image.
+    image_attrs = {
+        'name': image_name,
+        'data': data,
+        'disk_format': 'raw',
+        'container_format': 'bare',
+        'visibility': 'public',
+    }
+    conn.image.upload_image(**image_attrs)
+
+
 def find_server(conn, name_server):
     #server = conn.compute.find_server("")
     for server in conn.compute.servers():

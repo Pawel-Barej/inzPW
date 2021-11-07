@@ -1,0 +1,54 @@
+<div id="create-assignments-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">New assignment</h4>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+
+                        <h5>Upload image</h5>
+
+                        <form action="/manage-groups/<group_name>"
+                              method="POST"
+                              enctype="multipart/form-data">
+
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <p id="msg"></p>
+                                    <input type="file"
+                                           class="custom-file-input"
+                                           name="image"
+                                           id="image"
+                                           multiple="multiple">
+
+                                    <label class="custom-file-label"
+                                           id="upload-image"
+                                           for="image">Select image...</label>
+                                </div>
+                            </div>
+
+                            <button type="button"
+                                    id="upload-button"
+                                    class="btn btn-primary"
+                                    onclick="uploadImage()">Upload
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal">Close
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

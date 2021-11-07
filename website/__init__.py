@@ -6,9 +6,11 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
+UPLOAD_FOLDER = 'static/uploads'
 
 def create_app():
     app = Flask(__name__)
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60) #Auto wylogowanie po 5 minutach
