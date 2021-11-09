@@ -20,11 +20,13 @@ def create_app():
     from .auth import auth
     from .manage_groups import manage_groups
     from .assignments import assignments
+    from .create_assignments import create_assignments
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(manage_groups, url_prefix='/')
     app.register_blueprint(assignments, url_prefix='/')
+    app.register_blueprint(create_assignments, url_prefix='/')
 
     from .models import User, Group, User_in_group
 

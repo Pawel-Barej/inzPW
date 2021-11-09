@@ -59,19 +59,19 @@ function createGroup() {
 }
 
 function tableGroupWithUsers() {
-    let nameGroup = document.getElementById("select-table-group-with-users").value[0];
+    let nameGroup = document.getElementById("select-table-group-with-users").value;
     window.location.href = `/manage-groups/${nameGroup}`
 
 }
 
 function uploadImage() {
     const formData = new FormData();
-    let file = document.querySelector('[type=file]').files;
+    let file = document.getElementById('file').files[0];
     console.log(file)
-    formData.append("image", file)
+    formData.append("file", file)
 
 
-        fetch("/manage-groups", {
+    fetch("/create-assignments", {
         method: "POST",
         body: formData
     }).then()

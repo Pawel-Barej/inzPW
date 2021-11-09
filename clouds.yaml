@@ -1,10 +1,10 @@
 clouds:
   openstack:
     auth:
-      auth_url: http://10.17.100.11:5000
+      auth_url: http://10.12.100.11:5000
       username: "zulu-pbarej"
       password: "zst1492"
-      project_id: 870a1dbcae58482bb155284b5e2eb98d
+      project_id: 6014334773814285ad6515554302265f
       project_name: "zulu-pbarej"
       user_domain_name: "Default"
     region_name: "RegionOne"

@@ -34,6 +34,7 @@
                 <a class="nav-item nav-link" id="your-assignments" href="/your-assignments">Your assignments</a>
                 {% if user_has_permission("manage_groups") %}
                     <a class="nav-item nav-link" id="manage-groups" href="/manage-groups">Manage groups</a>
+                    <a class="nav-item nav-link" id="create-assignments" href="/create-assignments">Create assignments</a>
                 {% endif %}
                 <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
             {% else %}

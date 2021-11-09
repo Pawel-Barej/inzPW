@@ -11,7 +11,6 @@ assignments = Blueprint('assignments', __name__)
 
 
 @assignments.route('/your-assignments')
-@assignments.route('/your-assignments')
 @login_required
 def get_assignments_page():
 

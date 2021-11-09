@@ -12,5 +12,9 @@ def init(conn):
     create_port(conn, name_port, name_network)
     create_router(conn)
     add_interface_to_router(conn)
-    #import_image(conn)
+    import_image(conn)
     create_server(conn)
+
+init(conn)
+
+
