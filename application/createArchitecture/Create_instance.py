@@ -26,18 +26,15 @@ def import_image(conn):
                             method="website-download",
                             uri=uri)
 
-def create_image(conn, image):
+def create_image(conn, name, data, disk_format):
     print("Upload Image:")
-
-    # Load fake image data for the example.
 
     # Build the image attributes and upload the image.
     image_attrs = {
-        'name': 'test_image',
-        'data': image,
-        'disk_format': 'raw',
-        'container_format': 'bare',
-        'visibility': 'public',
+        'name': name,
+        'data': data,
+        'disk_format': disk_format,
+        'visibility': 'private',
     }
     conn.image.create_image(**image_attrs)
 
@@ -69,6 +66,13 @@ def create_server(conn):
 def delete_server(conn, name_server):
     print("Delete server:")
     conn.compute.delete_server(find_server(conn, name_server))
+
+def delete_image(conn,image_name):
+    print("Delete Image:")
+
+    image = conn.image.find_image(image_name)
+
+    conn.image.delete_image(image, ignore_missing=False)
 
 
 

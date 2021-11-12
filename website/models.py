@@ -20,14 +20,13 @@ class User_in_group(db.Model):
 
 class Uploaded_vm_image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    identifier = db.Column(db.String(50))
     name = db.Column(db.String(50))
-    description = db.Column(db.String(150))
-    expiration_date = db.Column(db.Integer)
+    format = db.Column(db.String(15))
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    expiration_date = db.Column(db.Integer)
     description = db.Column(db.String(150))
     uploaded_vm_image_id = db.Column(db.Integer)
     creator_id = db.Column(db.Integer)
@@ -36,3 +35,12 @@ class Users_assigned(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     assignment_id = db.Column(db.Integer, db.ForeignKey('assignment.id'))
+
+class Architecture_for_assignment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    network_name = db.Column(db.String(150))
+    cidr = db.Column(db.String(150))
+    gateway_ip = db.Column(db.String(150))
+    router_name = db.Column(db.String(150))
+
+

@@ -22,7 +22,6 @@ function getIdButtonForUser() {
     return data
 }
 
-//---------------------------------------------------
 
 function onAddToGroup() {
     list = []
@@ -66,15 +65,48 @@ function tableGroupWithUsers() {
 
 function uploadImage() {
     const formData = new FormData();
-    let file = document.getElementById('file').files[0];
-    console.log(file)
-    formData.append("file", file)
+    var allowedExtensions =
+        /(\.img)$/i; // Można dodać inne rozszerzenia plików
 
+    let imageName = document.getElementById("image-name").value
+    let imageFormat = document.getElementById("choose-image-format").value
 
-    fetch("/create-assignments", {
-        method: "POST",
-        body: formData
-    }).then()
+    if (document.getElementById("file").files.length == 0 || imageName == null || imageName == '' || imageFormat == '') {
+        alert('No files selected, format or name is too short');
+
+    } else {
+        let file = document.getElementById('file').files[0];
+
+        formData.append("file", file)
+        formData.append("image-name", imageName)
+        formData.append("image-format", imageFormat)
+
+        if (!allowedExtensions.exec(file.name)) {
+            alert('Invalid file type');
+            return false;
+        } else {
+            fetch("/upload-image", {
+                method: "POST",
+                body: formData
+            }).then(r => location.reload())
+        }
+
+    }
+}
+
+function deleteImage(buttonId) {
+
+        const formData = new FormData();
+        console.log(buttonId)
+        console.log(buttonId.split("-")[1])
+        let idButtonForImage = buttonId.split("-")[1]
+
+        formData.append("idButtonForImage", idButtonForImage)
+        fetch("/delete_image", {
+            method: "POST",
+            body: formData
+        }).then(r => location.reload())
 
 }
+
 

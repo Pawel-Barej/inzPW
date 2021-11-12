@@ -20,7 +20,6 @@ def get_manage_groups_page(group_name):
     group_with_users = get_group_with_users(group_name)
 
 
-
     return render_template("manage-groups.html",
                            user_has_permission=user_has_permission,
                            groups_for_current_professor=show_groups_for_current_professor(),

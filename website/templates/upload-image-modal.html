@@ -11,6 +11,29 @@
                       method="POST"
                       enctype="multipart/form-data">
 
+                    <h6 class="modal-title">Choose image name:</h6>
+                    <input id="image-name"
+                           type="text"
+                           class="form-control"
+                           placeholder="name:">
+
+                    <h6 class="modal-title">Choose image format:</h6>
+                    <select class="form-select form-select-lg mb-3"
+                            aria-label=".form-select-lg example"
+                            id="choose-image-format">
+                        <option value="" name="format-ISO">Formats:</option>
+                        <option value="iso" name="format-ISO">ISO - Optical Disk Image</option>
+                        <option value="ploop" name="format-PLOOP">PLOOP - Virtuozzo/Parallels Loopback Disk</option>
+                        <option value="qcow2" name="format-QCOW2">QCOW2 - QEMU Emulator</option>
+                        <option value="raw" name="format-Raw">Raw</option>
+                        <option value="vdi" name="format-VDI">VDI - Virtual Disk Image</option>
+                        <option value="vhd" name="format-VHD">VHD - Virtual Hard Disk</option>
+                        <option value="vdmk" name="format-VMDK">VMDK - Virtual Machine Disk</option>
+                        <option value="aki" name="format-AKI">AKI - Amazon Kernel Image</option>
+                        <option value="ami" name="format-AMI">AMI - Amazon Machine Image</option>
+                        <option value="ari" name="format-ARI">ARI - Amazon Ramdisk Image</option>
+                    </select>
+
                     <div class="form-group">
                         <div class="custom-file">
                             <p id="msg"></p>
@@ -21,8 +44,20 @@
                                    multiple="multiple">
 
                             <label class="custom-file-label"
-                                   for="image">Select image...</label>
+                                   id="upload-label"
+                                   for="file">Select image...
+                            </label>
+                            <span id="upload-text">No file chosen, yet.</span>
                         </div>
+                        <script>
+                            const fileSelector = document.getElementById('file');
+                            let uploadText = document.getElementById("upload-text")
+                            fileSelector.addEventListener('change', (event) => {
+                                uploadText.innerText = fileSelector.value
+                            });
+                        </script>
+
+
                     </div>
 
                     <button type="button"
