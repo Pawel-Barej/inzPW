@@ -8,21 +8,32 @@
     <form method="get" action="/main">
 
         <div class="container">
-            <div class="row">
+            <div class="table-responsive">
                 {% include "table-users.html" %}
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
 
                 {% include "table-groups.html" %}
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row">
 
                 {% include "professors-groups.html" %}
 
-                {% include "create-group-modal.html" %}
-
-                {% include "change-role-modal.html" %}
-
-                {% include "add-user-to-group-modal.html" %}
-
-
             </div>
         </div>
+        {% include "create-group-modal.html" %}
+
+        {% include "change-role-modal.html" %}
+
+        {% include "add-user-to-group-modal.html" %}
+
+
     </form>
 {% endblock %}

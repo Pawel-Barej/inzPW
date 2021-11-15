@@ -46,6 +46,7 @@ function onAddToGroup() {
 
 
 function createGroup() {
+
     let nameForGroup = document.getElementById("name-for-group").value;
     const formData = new FormData();
     formData.append("nameForGroup", nameForGroup)
@@ -64,6 +65,7 @@ function tableGroupWithUsers() {
 }
 
 function uploadImage() {
+
     const formData = new FormData();
     var allowedExtensions =
         /(\.img)$/i; // Można dodać inne rozszerzenia plików
@@ -96,16 +98,49 @@ function uploadImage() {
 
 function deleteImage(buttonId) {
 
-        const formData = new FormData();
-        console.log(buttonId)
-        console.log(buttonId.split("-")[1])
-        let idButtonForImage = buttonId.split("-")[1]
+    const formData = new FormData();
+    let idButtonForImage = buttonId.split("-")[1]
 
-        formData.append("idButtonForImage", idButtonForImage)
-        fetch("/delete_image", {
-            method: "POST",
-            body: formData
-        }).then(r => location.reload())
+    formData.append("idButtonForImage", idButtonForImage)
+    fetch("/delete_image", {
+        method: "POST",
+        body: formData
+    }).then(r => location.reload())
+
+}
+
+function createArchitecture() {
+
+    const formData = new FormData();
+
+    const assignmentName = document.getElementById("name-assignment").value
+    const assignmentDescription = document.getElementById("textarea-assignment").value
+    const assignmentDatatimeEnd = document.getElementById("assignment-datatime-end").value
+
+
+    var radios = document.getElementsByTagName('input');
+    var value = new Array(2)
+    let j = 0
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].type === 'radio' && radios[i].checked) {
+            // get value, set checked flag or do whatever you need to
+            value[j] = radios[i].id;
+            j = j + 1
+        }
+    }
+
+    formData.append("assignmentName", assignmentName)
+    formData.append("assignmentDescription", assignmentDescription)
+    formData.append("assignmentDatatimeEnd", assignmentDatatimeEnd)
+    formData.append("idGroupForArchitecture", value[0].split("-")[4])
+    formData.append("idImageForArchitecture", value[1].split("-")[4])
+
+
+    fetch("/create_architecture", {
+        method: "POST",
+        body: formData
+    }).then()
+
 
 }
 

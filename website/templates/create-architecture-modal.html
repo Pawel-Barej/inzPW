@@ -1,0 +1,80 @@
+<div id="create-architecture" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create architecture</h4>
+            </div>
+
+            <div class="modal-body ">
+                <h6 class="modal-title">Enter the name of the assignment:</h6>
+                <input id="name-assignment"
+                       type="text"
+                       class="form-control"
+                       placeholder="name:">
+
+            </div>
+
+            <div class="modal-body ">
+                <h5 class="modal-title">Enter the description (optional):</h5>
+                <textarea class="form-control"
+                          id="textarea-assignment"
+                          rows="4"></textarea>
+
+            </div>
+
+
+            <div class="modal-body">
+                <h5 class="modal-title">Choose group:</h5>
+                {% for group in groups %}
+                    <div>
+
+                        <input type="radio"
+                               id="radio-button-for-group-{{ group.id }}"
+                               name="radio-button-groups">
+                        <label for="radio-button-groups"> {{ group.name_group }}</label>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="modal-body">
+                <h5 class="modal-title">Choose image for instance:</h5>
+                {% for image in images_for_modal %}
+                    <div>
+
+                        <input type="radio"
+                               id="radio-button-with-image-{{ image.id }}"
+                               name="radio-button-images">
+                        <label for=""> {{ image.name }}</label>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="modal-body">
+                <h5 class="modal-title">When should assignment end?</h5>
+
+                <input type="datetime-local"
+                       id="assignment-datatime-end">
+            </div>
+
+            <div class="modal-body">
+                <button type="button"
+                        class="btn btn-primary float-right"
+                        onclick="createArchitecture()">Create
+                </button>
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal">Close
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
