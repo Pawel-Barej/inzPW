@@ -2,35 +2,33 @@
 <script src="{{ url_for('static', filename='index.js') }}"></script>
 
 {% block content %}
+    {% include "assignments-modal.html" %}
     <table class="table table-hover table-dark">
+        <thead>
         <tr>
-            <td>
-                <div class="w-25">
-                    <label for="time">Timer</label>
-
-                    <input
-                            class="form-control"
-                            name="time"
-                            placeholder="Enter minutes <240"
-                    />
-                </div>
-
-                <div align="center">
-
-                    <input type="submit"
-                           value="create instance"
-                           class="btn btn-primary mb-3"
-                           name="action1"
-                    />
-
-                    <input type="submit"
-                           value="delete instance"
-                           class="btn btn-primary mb-3"
-                           name="action2"
-                    />
-
-                </div>
-            </td>
+            <th scope="col"> #</th>
+            <th scope="col"> Name</th>
+            <th scope="col"> Expiration date</th>
         </tr>
+        </thead>
+
+        {% for assignment in assignments %}
+            <tr>
+
+                <th scope="row"> {{ loop.index }} </th>
+                <td> {{ assignment.name}} </td>
+                <td> {{ assignment.expiration_date }} </td>
+                <td>
+
+                    <a href=""
+                       class="btn btn-primary btn-xs float-right"
+                       data-toggle="modal"
+                       data-target="#create_assignment_modal"
+                       id="button-active-instance_{{ assignment.name }}"
+                       onclick="sendIdButtonForUser2(this.id)">Resource Allocation Reservation</a>
+
+                </td>
+            </tr>
+        {% endfor %}
     </table>
 {% endblock %}

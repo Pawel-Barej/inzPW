@@ -16,6 +16,11 @@ function sendIdButtonForUser(value) {
 
 }
 
+function sendIdButtonForUser2(value) {
+    sessionStorage.setItem('id_button_for_user', value.split("_")[1]);
+
+}
+
 function getIdButtonForUser() {
     let data = sessionStorage.getItem('id_button_for_user');
 
@@ -123,7 +128,6 @@ function createArchitecture() {
     let j = 0
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].type === 'radio' && radios[i].checked) {
-            // get value, set checked flag or do whatever you need to
             value[j] = radios[i].id;
             j = j + 1
         }
@@ -135,13 +139,25 @@ function createArchitecture() {
     formData.append("idGroupForArchitecture", value[0].split("-")[4])
     formData.append("idImageForArchitecture", value[1].split("-")[4])
 
-
     fetch("/create_architecture", {
         method: "POST",
         body: formData
-    }).then()
-
-
+    }).then(r => location.reload())
 }
 
+function sourceReservation() {
+    const formData = new FormData();
 
+    const reservationTime = document.getElementById("set-time").value
+    let idButtonForUser = getIdButtonForUser()
+
+    formData.append("reservationTime", reservationTime)
+    formData.append("idButtonForUser", idButtonForUser)
+    console.log(reservationTime)
+
+
+    fetch("/resource-reservation", {
+        method: "POST",
+        body: formData
+    }).then(r => location.reload())
+}

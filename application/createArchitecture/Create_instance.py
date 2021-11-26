@@ -48,7 +48,7 @@ def find_server(conn, name_server):
     return data_server
 
 
-def create_server(conn):
+def create_server(conn, image_name, name_network, name):
     print("Create Server:")
 
     image = conn.compute.find_image(image_name)
@@ -56,7 +56,7 @@ def create_server(conn):
     network = conn.network.find_network(name_network)
 
     server = conn.compute.create_server(
-        name='new-instance', image_id=image.id, flavor_id=flavor.id,
+        name=name, image_id=image.id, flavor_id=flavor.id,
         networks=[{"uuid": network.id}])
 
     server = conn.compute.wait_for_server(server)

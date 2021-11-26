@@ -9,7 +9,7 @@ from application.createArchitecture.Create_instance import create_image, delete_
 from .models import Uploaded_vm_image, Assignment, Users_assigned, Architecture_for_assignment
 from .permissions import user_has_permission
 from .request_to_database import get_your_image, show_groups_for_current_professor, get_group_with_users, \
-    get_users_in_group, get_assignment, get_architecture_for_assignment
+    get_users_in_group, get_assignment, get_architecture_for_assignment, get_assignment_cuurent_professor
 
 conn = openstack.connect(cloud='openstack')
 create_assignments = Blueprint('create_assignments', __name__)
@@ -22,7 +22,8 @@ def get_create_assignments_page():
                            user_has_permission=user_has_permission,
                            images=get_your_image(),
                            groups=show_groups_for_current_professor(),
-                           images_for_modal=get_your_image()
+                           images_for_modal=get_your_image(),
+                           created_assignments=get_assignment_cuurent_professor()
                            )
 
 

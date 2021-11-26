@@ -34,7 +34,7 @@ class Assignment(db.Model):
     name = db.Column(db.String(150))
     expiration_date = db.Column(db.Integer)
     description = db.Column(db.String(150))
-    uploaded_vm_image_id = db.Column(db.Integer)
+    uploaded_vm_image_id = db.Column(db.Integer, db.ForeignKey('uploaded_vm_image.id'))
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     architecture_id = db.Column(db.Integer, db.ForeignKey('architecture_for_assignment.id'))
 
@@ -56,3 +56,10 @@ class Architecture_for_assignment(db.Model):
 
 class General_settings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+
+
+class Active_instance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    expiration_time = db.Column(db.String(150))
+    booking_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    assignment_id = db.Column(db.Integer, db.ForeignKey('assignment.id'))

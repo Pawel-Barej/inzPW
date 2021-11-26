@@ -1,0 +1,41 @@
+<div id="create_assignment_modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Reservation</h4>
+            </div>
+
+
+            <div class="modal-body">
+                <h5> Set time: </h5>
+                <select class="form-select form-select-lg mb-3"
+                        aria-label=".form-select-lg example"
+                        id="set-time">
+                    <option value="1" id="set-1h">1 hour</option>
+                    <option value="2" id="set-2h">2 hours</option>
+                    <option value="3" id="set-3h">3 hours</option>
+                    <option value="4" id="set-4h">4 hours</option>
+                </select>
+            </div>
+
+            <div class="modal-body">
+
+                <button class="btn btn-primary float-right"
+                        onclick="sourceReservation()">Reserve sources
+                </button>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal">Close
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
