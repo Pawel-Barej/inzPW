@@ -1,4 +1,3 @@
-
 from application.createArchitecture.Create_network import *
 import openstack
 
@@ -6,6 +5,7 @@ conn = openstack.connect(cloud='openstack')
 
 image_name = 'test_image'
 name_instance = 'test1_new_instance'
+
 
 def import_image(conn):
     print("Import Image:")
@@ -26,6 +26,7 @@ def import_image(conn):
                             method="website-download",
                             uri=uri)
 
+
 def create_image(conn, name, data, disk_format):
     print("Upload Image:")
 
@@ -40,7 +41,7 @@ def create_image(conn, name, data, disk_format):
 
 
 def find_server(conn, name_server):
-    server = conn.compute.find_server("")
+    server = conn.compute.find_server(name_server)
     for server in conn.compute.servers():
         if server.name == name_server:
             data_server = server
@@ -56,8 +57,11 @@ def create_server(conn, image_name, name_network, name):
     network = conn.network.find_network(name_network)
 
     server = conn.compute.create_server(
-        name=name, image_id=image.id, flavor_id=flavor.id,
+        name=name,
+        image_id=image.id,
+        flavor_id=flavor.id,
         networks=[{"uuid": network.id}])
+        #userdata="#!/bin/bash \n echo 'AMAZING TEST' > /root/test")
 
     server = conn.compute.wait_for_server(server)
     print(server)
@@ -65,9 +69,11 @@ def create_server(conn, image_name, name_network, name):
 
 def delete_server(conn, name_server):
     print("Delete server:")
+    print(find_server(conn, name_server))
     conn.compute.delete_server(find_server(conn, name_server))
 
-def delete_image(conn,image_name):
+
+def delete_image(conn, image_name):
     print("Delete Image:")
 
     image = conn.image.find_image(image_name)
@@ -75,5 +81,22 @@ def delete_image(conn,image_name):
     conn.image.delete_image(image, ignore_missing=False)
 
 
+def list_servers(conn):
+    print("List Servers:")
+
+    for server in conn.compute.servers():
+        print(server)
 
 
+def add_floating_ip_to_server(conn, name_server, address):
+    conn.compute.add_floating_ip_to_server(find_server(conn, name_server).id, address, fixed_address=None)
+
+
+def create_ip(conn):
+    if conn.network.find_available_ip() == None:
+        floating_ip = conn.network.create_ip(floating_network_id=find_network(conn, "external").id)
+
+    else:
+        floating_ip = conn.network.find_available_ip()
+
+    return floating_ip.name

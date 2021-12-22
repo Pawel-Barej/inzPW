@@ -77,12 +77,16 @@ function uploadImage() {
 
     let imageName = document.getElementById("image-name").value
     let imageFormat = document.getElementById("choose-image-format").value
+    const loading = document.getElementById("loading-image")
+
+
 
     if (document.getElementById("file").files.length == 0 || imageName == null || imageName == '' || imageFormat == '') {
         alert('No files selected, format or name is too short');
 
     } else {
         let file = document.getElementById('file').files[0];
+        loading.style.visibility = "visible"
 
         formData.append("file", file)
         formData.append("image-name", imageName)
@@ -121,8 +125,9 @@ function createArchitecture() {
     const assignmentName = document.getElementById("name-assignment").value
     const assignmentDescription = document.getElementById("textarea-assignment").value
     const assignmentDatatimeEnd = document.getElementById("assignment-datatime-end").value
+    const loading = document.getElementById("loading-architecture")
 
-
+    loading.style.visibility = "visible"
     var radios = document.getElementsByTagName('input');
     var value = new Array(2)
     let j = 0
@@ -150,6 +155,8 @@ function sourceReservation() {
 
     const reservationTime = document.getElementById("set-time").value
     let idButtonForUser = getIdButtonForUser()
+    const loading = document.getElementById("loading-create-instance")
+    loading.style.visibility = "visible"
 
     formData.append("reservationTime", reservationTime)
     formData.append("idButtonForUser", idButtonForUser)

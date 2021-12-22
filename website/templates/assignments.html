@@ -16,7 +16,7 @@
             <tr>
 
                 <th scope="row"> {{ loop.index }} </th>
-                <td> {{ assignment.name}} </td>
+                <td> {{ assignment.name }} </td>
                 <td> {{ assignment.expiration_date }} </td>
                 <td>
 
@@ -25,9 +25,37 @@
                        data-toggle="modal"
                        data-target="#create_assignment_modal"
                        id="button-active-instance_{{ assignment.name }}"
-                       onclick="sendIdButtonForUser2(this.id)">Resource Allocation Reservation</a>
+                       onclick="sendIdButtonForUser2(this.id)">Resource Allocation </a>
 
                 </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <table class="table table-hover table-dark">
+        <thead>
+        <tr>
+            <th scope="col"> #</th>
+            <th scope="col"> Expiration date</th>
+            <th scope="col"> Address ip</th>
+
+        </tr>
+        </thead>
+
+        {% for instance in instances %}
+            <tr>
+
+                <th scope="row"> {{ loop.index }} </th>
+                <td> {{ instance.expiration_time }} </td>
+                <td> {{ instance.address_ip }} </td>
+
+                <td>
+                    <a href="" class="btn btn-danger btn-xs float-right"
+                       onclick="return confirm('Are you sure to delete?')">Delete</a>
+
+                </td>
+
             </tr>
         {% endfor %}
     </table>

@@ -2,8 +2,6 @@ from application.createArchitecture.Create_network import *
 import openstack
 
 conn = openstack.connect(cloud='openstack')
-router_name = 'example_router'
-name_subnet_public1 = 'external-subnet'
 
 
 def find_router(conn, name_router):

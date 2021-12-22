@@ -63,9 +63,8 @@ def get_assignment_cuurent_professor():
 def get_assignment_curent_user():
     result = db.session.query(Assignment.name, Assignment.expiration_date,
                               Architecture_for_assignment.network_name).select_from(
-        Assignment).join(Users_assigned).join(User
-                                              ).join(Uploaded_vm_image).join(Architecture_for_assignment).filter(
-        Users_assigned.user_id == current_user.id, Assignment.uploaded_vm_image_id == Uploaded_vm_image.id,
+        Assignment).join(Users_assigned).join(Uploaded_vm_image).join(Architecture_for_assignment).filter(
+        Assignment.uploaded_vm_image_id == Uploaded_vm_image.id, Users_assigned.user_id == current_user.id,
         Assignment.architecture_id == Architecture_for_assignment.id).all()
     return result
 
@@ -98,4 +97,24 @@ def delete_instance(instance_id):
 
 
 def delete_assignment_and_architecture(assignment_name):
-    print("D")
+    id_assignment = db.session.query(Assignment.id).filter(Assignment.name == assignment_name).first()
+
+    result = db.session.query(Assignment.architecture_id).filter(Assignment.name == assignment_name).first()
+
+    Users_assigned.query.filter(Users_assigned.assignment_id == id_assignment[0]).delete()
+    Architecture_for_assignment.query.filter(Architecture_for_assignment.id == result[0]).delete()
+    Assignment.query.filter(Assignment.name == assignment_name).delete()
+    db.session.commit()
+
+
+def get_time_max(assignment_id):
+    result = db.session.query(Assignment.expiration_date).filter(Assignment.id == assignment_id).first()
+
+    return result
+
+
+def get_user_instance():
+    result = db.session.query(Active_instance.expiration_time, Active_instance.address_ip).filter(
+        Active_instance.booking_user_id == current_user.id)
+
+    return result

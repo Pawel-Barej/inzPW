@@ -52,6 +52,7 @@ class Architecture_for_assignment(db.Model):
     cidr = db.Column(db.String(150))
     gateway_ip = db.Column(db.String(150))
     router_name = db.Column(db.String(150))
+    port_name = db.Column(db.String(150))
 
 
 class General_settings(db.Model):
@@ -60,6 +61,8 @@ class General_settings(db.Model):
 
 class Active_instance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150))
     expiration_time = db.Column(db.String(150))
+    address_ip = db.Column(db.String(150))
     booking_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     assignment_id = db.Column(db.Integer, db.ForeignKey('assignment.id'))

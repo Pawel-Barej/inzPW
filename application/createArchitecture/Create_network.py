@@ -33,15 +33,15 @@ def find_network(conn, name_network):
     for network in conn.network.networks():
         if network.name == name_network:
             data_network = network
-            print(data_network.id)
             return data_network
+
 
 def create_port(conn, name_port, name_network):
     print("Create Port")
 
     new_port = conn.network.create_port(
-        name = name_port,
-        network_id = find_network(conn, name_network).id
+        name=name_port,
+        network_id=find_network(conn, name_network).id
 
     )
     print(new_port)
@@ -49,14 +49,13 @@ def create_port(conn, name_port, name_network):
 
 # Lista podsieci
 def find_subnet(conn, name_subnet):
-
     for subnet in conn.network.subnets():
         if subnet.name == name_subnet:
             subnet_internal_network = subnet
             return subnet_internal_network
 
-def find_port(conn, name_port):
 
+def find_port(conn, name_port):
     for port in conn.network.ports():
         if port.name == name_port:
             data_port = port

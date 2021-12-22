@@ -91,7 +91,8 @@ def create_architecture():
                                                        subnet_name=new_subnet_name,
                                                        cidr=new_cidr,
                                                        gateway_ip=new_gateway_ip,
-                                                       router_name=new_router_name)
+                                                       router_name=new_router_name,
+                                                       port_name=new_port_name)
 
         db.session.add(new_architecture)
         db.session.commit()

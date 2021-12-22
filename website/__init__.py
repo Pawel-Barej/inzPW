@@ -3,12 +3,19 @@ from datetime import timedelta, datetime
 from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 from os import path
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 import time
+import openstack
 
+from application.createArchitecture.Create_instance import delete_server
+from application.createArchitecture.Create_network import delete_network
+from application.createArchitecture.Create_router import delete_router, remove_interface_from_router
+
+
+conn = openstack.connect(cloud='openstack')
 db = SQLAlchemy()
 
-from website.request_to_database import delete_instance
+from website.request_to_database import delete_instance, delete_assignment_and_architecture
 
 DB_NAME = "database.db"
 UPLOAD_FOLDER = 'static'
@@ -42,8 +49,8 @@ def create_app():
 
     with app.app_context():
         threading.Thread(target=timer_for_elements,
-                         args=(get_expiration_date_architecture(),
-                               app)).start()
+                         args=(
+                             app,)).start()
 
     create_database(app)
     login_manager = LoginManager()
@@ -63,28 +70,38 @@ def create_database(app):
         print('Created Database!')
 
 
-def timer_for_elements(get_expiration_date_assignments, app):
-    from website.models import Active_instance
-    with app.app_context():
-        get_expiration_date_instances = db.session.query(Active_instance.id, Active_instance.expiration_time).all()
+def timer_for_elements(app):
+    from website.models import Active_instance, Assignment, Architecture_for_assignment, User
 
     while True:
-        for date in get_expiration_date_assignments:
-            deadline = datetime.strptime(date[1], "%Y-%m-%dT%H:%M")
-            actual_date = datetime.now()
-            if deadline < actual_date:
-                print("This should be removed: " + date[0])
+        with app.app_context():
+            get_expiration_date_instances = db.session.query(Active_instance.id, Active_instance.expiration_time, Active_instance.name).all()
+            get_expiration_date_assignments = db.session.query(Assignment.name, Assignment.expiration_date).all()
 
         for date in get_expiration_date_instances:
             deadline = datetime.strptime(date[1], "%Y-%m-%dT%H:%M")
             actual_date = datetime.now()
             if deadline < actual_date:
                 with app.app_context():
-                    print(date[1])
+                    delete_server(conn, date[2])
                     delete_instance(date[0])
-                    print("i delete instance")
 
-        with app.app_context():
-            get_expiration_date_instances = db.session.query(Active_instance.id, Active_instance.expiration_time).all()
+        for date in get_expiration_date_assignments:
+            deadline = datetime.strptime(date[1], "%Y-%m-%dT%H:%M")
+            actual_date = datetime.now()
+            if deadline < actual_date:
+                with app.app_context():
+                    architecture_date = db.session.query(Architecture_for_assignment.router_name,
+                                                         Architecture_for_assignment.network_name,
+                                                         Architecture_for_assignment.subnet_name,
+                                                         Architecture_for_assignment.port_name).filter(
+                        Assignment.name == date[0],
+                        Assignment.architecture_id == Architecture_for_assignment.id).first()
+                    remove_interface_from_router(conn, architecture_date[0], architecture_date[2], architecture_date[3])
+                    delete_router(conn, architecture_date[0])
+                    delete_network(conn, architecture_date[1], architecture_date[2])
+                    delete_assignment_and_architecture(date[0])
+
+
 
         time.sleep(10)
