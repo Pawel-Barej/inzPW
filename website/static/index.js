@@ -80,7 +80,6 @@ function uploadImage() {
     const loading = document.getElementById("loading-image")
 
 
-
     if (document.getElementById("file").files.length == 0 || imageName == null || imageName == '' || imageFormat == '') {
         alert('No files selected, format or name is too short');
 
@@ -164,6 +163,66 @@ function sourceReservation() {
 
 
     fetch("/resource-reservation", {
+        method: "POST",
+        body: formData
+    }).then(r => location.reload())
+}
+
+function deleteFromTable(buttonId) {
+
+    const formData = new FormData();
+    let idButtonForDelete = buttonId.split("-")[1]
+
+    formData.append("idButtonForDelete", idButtonForDelete)
+    fetch("/delete-group", {
+        method: "POST",
+        body: formData
+    }).then(r => location.reload())
+
+}
+
+function deleteUserFromTable(buttonId) {
+    const formData = new FormData();
+    let idButtonForDelete = buttonId.split("-")[1]
+    const group = window.location.href.split("/")[4]
+
+    formData.append("idButtonForDelete", idButtonForDelete)
+    fetch("/remove-user/" + group, {
+        method: "POST",
+        body: formData
+    }).then(r => location.reload())
+
+}
+
+function updateUser() {
+    const formData = new FormData();
+
+    const idUser = getIdButtonForUser()
+
+    const newEmailUser = document.getElementById("new-email-user").value
+    const newNameUser = document.getElementById("new-name-user").value
+
+    formData.append("newEmailUser", newEmailUser)
+    formData.append("newNameUser", newNameUser)
+    formData.append("idUser", idUser)
+
+    fetch("/update-user", {
+        method: "POST",
+        body: formData
+    }).then(r => location.reload())
+}
+
+function updateGroup() {
+    const formData = new FormData();
+
+    const idGroup = getIdButtonForUser()
+
+    const newNameGroup = document.getElementById("new-name-group").value
+
+    formData.append("newNameGroup", newNameGroup)
+    formData.append("idGroup", idGroup)
+
+    fetch("/update-professor-group", {
         method: "POST",
         body: formData
     }).then(r => location.reload())

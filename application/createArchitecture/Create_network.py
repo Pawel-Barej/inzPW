@@ -23,7 +23,7 @@ def create_network_with_subnets(conn, network_name, name_subnet, cidr, gateway_i
         cidr=cidr,
         gateway_ip=gateway_ip,
         dns_nameservers=['8.8.8.8'],
-        enable_dhcp=False)  # Jak coś nie działa to zaznacz że True
+        enable_dhcp=True)  # Jak coś nie działa to zaznacz że True
 
     print(new_subnet)
 
@@ -36,13 +36,13 @@ def find_network(conn, name_network):
             return data_network
 
 
-def create_port(conn, name_port, name_network):
+def create_port(conn, name_port, name_network, name_subnet, ip_address):
     print("Create Port")
 
     new_port = conn.network.create_port(
         name=name_port,
-        network_id=find_network(conn, name_network).id
-
+        network_id=find_network(conn, name_network).id,
+        fixed_ips=[{'subnet_id': find_subnet(conn, name_subnet).id, 'ip_address': ip_address}]
     )
     print(new_port)
 

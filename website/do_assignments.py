@@ -10,7 +10,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 from .permissions import user_has_permission
 from .request_to_database import get_assignment_curent_user, get_assignment, get_network_name_from_assignment, \
-    get_time_max, get_user_instance
+    get_time_max, get_user_instance, get_active_instance
 import openstack
 
 conn = openstack.connect(cloud='openstack')
@@ -45,21 +45,32 @@ def resource_reservation():
         reservation_end_time = deadline - timedelta(minutes=5)
         dt_string = reservation_end_time.strftime("%Y-%m-%d" + "T" + "%H:%M")
 
-    create_server(conn, index_network_name_image_name[2], index_network_name_image_name[1],
-                  "instance_for: " + current_user.email + " " + name_assignment_for_user)
+    def create_server_for_user():
+        create_server(conn, index_network_name_image_name[2], index_network_name_image_name[1],
+                      "instance_for: " + current_user.email + " " + name_assignment_for_user)
 
-    address_ip = create_ip(conn)
-    print(address_ip)
+        address_ip = create_ip(conn)
+        print(address_ip)
 
-    add_floating_ip_to_server(conn, "instance_for: " + current_user.email + " " + name_assignment_for_user,
-                              address_ip)
+        add_floating_ip_to_server(conn, "instance_for: " + current_user.email + " " + name_assignment_for_user,
+                                  address_ip)
 
-    create_instance = Active_instance(expiration_time=dt_string,
-                                      name="instance_for: " + current_user.email + " " + name_assignment_for_user,
-                                      address_ip=address_ip,
-                                      booking_user_id=current_user.id,
-                                      assignment_id=index_network_name_image_name[0])
-    db.session.add(create_instance)
-    db.session.commit()
+        create_instance = Active_instance(expiration_time=dt_string,
+                                          name="instance_for: " + current_user.email + " " + name_assignment_for_user,
+                                          address_ip=address_ip,
+                                          booking_user_id=current_user.id,
+                                          assignment_id=index_network_name_image_name[0])
+        db.session.add(create_instance)
+        db.session.commit()
+
+    print(get_active_instance())
+
+    if get_active_instance() != []:
+        for instance in get_active_instance()[0]:
+            flash('This user already is in:', category='error')
+            if instance != ("instance_for: " + current_user.email + " " + name_assignment_for_user):
+                create_server_for_user()
+    else:
+        create_server_for_user()
 
     return get_assignments_page()

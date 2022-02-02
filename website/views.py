@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, Blueprint, render_template, request
+from flask import Blueprint, render_template, flash, redirect, url_for, Blueprint, render_template, request, session
 from flask_login import login_required, current_user
 from .models import Group, User, User_in_group
 from . import db
@@ -81,3 +81,53 @@ def add_user_to_group():
                 db.session.commit()
 
     return get_main_page()
+
+
+@views.route('/delete-user-from-group', methods=['POST'])
+@login_required
+def delete_user_from_group():
+    if request.method == 'POST':
+        id_user_to_delete = request.form.get('idButtonForDelete')
+        User.query.filter_by(id=id_user_to_delete).delete()
+        User_in_group.query.filter_by(user_id=int(id_user_to_delete)).delete()
+        db.session.commit()
+
+    return get_main_page()
+
+@views.route('/delete-group', methods=['POST'])
+@login_required
+def delete_group():
+    if request.method == 'POST':
+        id_group_to_delete = request.form.get('idButtonForDelete')
+        Group.query.filter_by(id=id_group_to_delete).delete()
+        User_in_group.query.filter_by(group_id=int(id_group_to_delete)).delete()
+        db.session.commit()
+
+
+    return get_main_page()
+
+
+@views.route('/update-user', methods=['POST'])
+@login_required
+def update_user():
+    if request.method == 'POST':
+        user_id = request.form.get('idUser')
+        new_email_user = request.form.get('newEmailUser')
+        new_name_user = request.form.get('newNameUser')
+        User.query.filter_by(id=int(user_id)).update(dict(email=new_email_user))
+        User.query.filter_by(id=int(user_id)).update(dict(first_name=new_name_user))
+        db.session.commit()
+
+    return get_main_page()
+
+@views.route('/update-professor-group', methods=['POST'])
+@login_required
+def update_professor_group():
+    if request.method == 'POST':
+        group_id = request.form.get('idGroup')
+        new_name_group = request.form.get('newNameGroup')
+        Group.query.filter_by(id=int(group_id)).update(dict(name_group=new_name_group))
+        db.session.commit()
+
+    return get_main_page()
+

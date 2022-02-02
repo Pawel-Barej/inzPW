@@ -21,8 +21,9 @@
                 <td> {{ user.first_name }} </td>
 
                 <td>
-                    <a href="" class="btn btn-danger btn-xs float-right"
-                       onclick="return confirm('Are you sure to delete?')">Delete</a>
+                        <a class="btn btn-danger btn-xs float-right"
+                           id="delete_user-{{ user.id }}"
+                           onclick="deleteUserFromTable(this.id)">Delete</a>
 
                 </td>
             </tr>

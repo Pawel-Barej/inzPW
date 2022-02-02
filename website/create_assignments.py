@@ -48,7 +48,6 @@ def upload_image():
 def delete_image_from_list():
     if request.method == 'POST':
         id_image_to_delete = request.form.get('idButtonForImage')
-        print(id_image_to_delete)
         name_image = db.session.query(Uploaded_vm_image).filter(Uploaded_vm_image.id == id_image_to_delete).first()
 
         delete_image(conn, name_image.name)
@@ -115,7 +114,7 @@ def create_architecture():
             db.session.commit()
 
         create_network_with_subnets(conn, new_network_name, new_subnet_name, new_cidr, new_gateway_ip)
-        create_port(conn, new_port_name, new_network_name)
+        create_port(conn, new_port_name, new_network_name, new_subnet_name, new_gateway_ip)
         create_router(conn, new_router_name)
         add_interface_to_router(conn, new_router_name, new_subnet_name, new_port_name)
 

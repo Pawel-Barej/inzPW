@@ -21,7 +21,7 @@
             {% for user in users %}
                 <tr>
 
-                    <th scope="row"> {{ user.id }} </th>
+                    <th scope="row"> {{ loop.index }} </th>
                     <td> {{ user.email }} </td>
                     <td> {{ user.first_name }} </td>
                     <td> {{ user.role }} </td>
@@ -29,12 +29,15 @@
                     <td>
                         <a href=""
                            class="btn btn-danger btn-xs float-right"
-                           onclick="return confirm('Are you sure to delete?')">Delete</a>
+                           id="button_add_user_to_group-{{ user.id }}"
+                           onclick=" deleteFromTable(this.id)">Delete</a>
 
                         <a href=""
                            class="btn btn-warning btn-xs float-right"
+                           id="button_update_user-{{ user.id }}"
                            data-toggle="modal"
-                           data-target="#modaledit">Edit</a>
+                           data-target="#update-user-modal"
+                           onclick="sendIdButtonForUser(this.id)">Edit</a>
 
                         <a href=""
                            class="btn btn-success btn-xs float-right"

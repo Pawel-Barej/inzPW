@@ -23,7 +23,7 @@ def show_groups_for_current_professor():
 
 
 def get_group_with_users(name_group):
-    result = db.session.query(User.email, User.first_name).select_from(Group).join(User_in_group).join(
+    result = db.session.query(User.id, User.email, User.first_name).select_from(Group).join(User_in_group).join(
         User).filter(
         Group.id_owner == current_user.id, Group.name_group == name_group).all()
 
@@ -118,3 +118,9 @@ def get_user_instance():
         Active_instance.booking_user_id == current_user.id)
 
     return result
+
+def get_active_instance():
+    results = db.session.query(Active_instance.name).all()
+
+    return results
+

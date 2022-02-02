@@ -53,7 +53,7 @@ def create_server(conn, image_name, name_network, name):
     print("Create Server:")
 
     image = conn.compute.find_image(image_name)
-    flavor = conn.compute.find_flavor('m1.tiny')
+    flavor = conn.compute.find_flavor('m1.medium')
     network = conn.network.find_network(name_network)
 
     server = conn.compute.create_server(

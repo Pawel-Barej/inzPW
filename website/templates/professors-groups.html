@@ -16,11 +16,17 @@
                     <td> {{ group.name_group }} </td>
 
                     <td>
-                        <a href="" class="btn btn-danger btn-xs float-right"
-                           onclick="return confirm('Are you sure to delete?')">Delete</a>
+                        <a href=""
+                           class="btn btn-danger btn-xs float-right"
+                           id="delete_group-{{ group.id }}"
+                           onclick="deleteFromTable(this.id)">Delete</a>
 
-                        <a href="" class="btn btn-warning btn-xs float-right" data-toggle="modal"
-                           data-target="#modaledit">Edit</a>
+                        <a href=""
+                           class="btn btn-warning btn-xs float-right"
+                           id="button_update_user-{{ group.id }}"
+                           data-toggle="modal"
+                           data-target="#update-group-modal"
+                           onclick="sendIdButtonForUser(this.id)">Edit</a>
 
                     </td>
                 </tr>

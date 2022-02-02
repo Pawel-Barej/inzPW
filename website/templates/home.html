@@ -10,6 +10,8 @@
         <div class="container">
             <div class="table-responsive">
                 {% include "table-users.html" %}
+                {% include "update-user-modal.html" %}
+                {% include "update-group-modal.html" %}
             </div>
         </div>
 
@@ -31,6 +33,7 @@
         {% include "change-role-modal.html" %}
 
         {% include "add-user-to-group-modal.html" %}
+
 
     </form>
 {% endblock %}

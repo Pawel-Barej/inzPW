@@ -26,13 +26,14 @@ def create_router(conn, router_name):
 
 
 def add_interface_to_router(conn, router_name, subnet_name, port_name):
-    conn.network.add_interface_to_router(
+    interface = conn.network.add_interface_to_router(
         router=conn.network.find_router(router_name),
         subnet_id=find_subnet(conn, subnet_name).id,
         port_id=find_port(conn, port_name).id
 
     )
     print(find_port(conn, port_name).id)
+    print(interface)
 
 
 def remove_interface_from_router(conn, router_name, name_subnet, name_port):
