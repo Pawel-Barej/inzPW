@@ -1,21 +1,21 @@
 import threading
 from datetime import timedelta, datetime
-from flask import Flask, session
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager
 import time
 import openstack
 
-from application.createArchitecture.Create_instance import delete_server
-from application.createArchitecture.Create_network import delete_network
-from application.createArchitecture.Create_router import delete_router, remove_interface_from_router
+from application.infrastructure.Create_instance import delete_server
+from application.infrastructure.Create_network import delete_network
+from application.infrastructure.Create_router import delete_router, remove_interface_from_router
 
 
 conn = openstack.connect(cloud='openstack')
 db = SQLAlchemy()
 
-from website.request_to_database import delete_instance, delete_assignment_and_architecture
+from application.website.control.request_to_database import delete_instance, delete_assignment_and_architecture
 
 DB_NAME = "database.db"
 UPLOAD_FOLDER = 'static'
@@ -26,6 +26,7 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)  # Auto wylogowanie po 5 minutach
     db.init_app(app)
 
@@ -35,24 +36,22 @@ def create_app():
     from .do_assignments import assignments
     from .create_assignments import create_assignments
 
-    from website.request_to_database import get_expiration_date_instance
-    from website.request_to_database import get_expiration_date_architecture
-
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(manage_groups, url_prefix='/')
     app.register_blueprint(assignments, url_prefix='/')
     app.register_blueprint(create_assignments, url_prefix='/')
 
-    from .models import User, Group, User_in_group, Uploaded_vm_image, Assignment, Users_assigned, \
-        Architecture_for_assignment, General_settings, Active_instance
+
+    from .models import User
+    create_database(app)
 
     with app.app_context():
         threading.Thread(target=timer_for_elements,
                          args=(
                              app,)).start()
 
-    create_database(app)
+
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
@@ -65,13 +64,13 @@ def create_app():
 
 
 def create_database(app):
-    if not path.exists('website/' + DB_NAME):
+    if not path.exists('application/website/control/' + DB_NAME):
         db.create_all(app=app)
-        print('Created Database!')
+        print('New Database!')
 
 
 def timer_for_elements(app):
-    from website.models import Active_instance, Assignment, Architecture_for_assignment, User
+    from application.website.control.models import Active_instance, Assignment, Architecture_for_assignment
 
     while True:
         with app.app_context():

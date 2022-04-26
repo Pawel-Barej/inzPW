@@ -1,5 +1,4 @@
-from application.createArchitecture.Create_router import  *
-from application.createArchitecture.Create_instance import *
+from application.website.control import *
 
 import openstack
 

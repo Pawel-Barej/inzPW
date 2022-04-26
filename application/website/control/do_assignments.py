@@ -1,15 +1,14 @@
 from datetime import datetime, timedelta
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for, session
+from flask import Blueprint, render_template, request, flash
 
-from application.createArchitecture.Create_instance import create_server, add_floating_ip_to_server, create_ip
-from .models import User, Active_instance
-from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
-from flask_login import login_user, login_required, logout_user, current_user
+from application.infrastructure.Create_instance import create_server, add_floating_ip_to_server, create_ip
+from .models import Active_instance
+from application.website.control import db
+from flask_login import login_required, current_user
 
 from .permissions import user_has_permission
-from .request_to_database import get_assignment_curent_user, get_assignment, get_network_name_from_assignment, \
+from .request_to_database import get_assignment_curent_user, get_network_name_from_assignment, \
     get_time_max, get_user_instance, get_active_instance
 import openstack
 

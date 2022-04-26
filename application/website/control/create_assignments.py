@@ -2,14 +2,13 @@ from flask import Blueprint, render_template, request
 import openstack
 from flask_login import login_required, current_user
 
-from application.createArchitecture.Create_network import create_network_with_subnets, create_port
-from application.createArchitecture.Create_router import create_router, add_interface_to_router
-from . import db
-from application.createArchitecture.Create_instance import create_image, delete_image
+from application.infrastructure.Create_network import create_network_with_subnets, create_port
+from application.infrastructure.Create_router import create_router, add_interface_to_router
+from application.website.control import db
+from application.infrastructure.Create_instance import create_image, delete_image
 from .models import Uploaded_vm_image, Assignment, Users_assigned, Architecture_for_assignment
 from .permissions import user_has_permission
-from .request_to_database import get_your_image, show_groups_for_current_professor, get_group_with_users, \
-    get_users_in_group, get_assignment, get_architecture_for_assignment, get_assignment_cuurent_professor
+from .request_to_database import get_your_image, show_groups_for_current_professor, get_users_in_group, get_assignment, get_architecture_for_assignment, get_assignment_cuurent_professor
 
 conn = openstack.connect(cloud='openstack')
 create_assignments = Blueprint('create_assignments', __name__)

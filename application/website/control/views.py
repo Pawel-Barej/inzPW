@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, Blueprint, render_template, request, session
+from flask import flash, Blueprint, render_template, request
 from flask_login import login_required, current_user
 from .models import Group, User, User_in_group
-from . import db
+from application.website.control import db
 from .permissions import user_has_permission
 from .request_to_database import show_users, show_groups, show_groups_for_current_professor
 
@@ -30,7 +30,7 @@ def create_group():
             wrong_name_group = Group.query.filter_by(name_group=group).first()
 
             if wrong_name_group:
-                flash('This group already exists.', category='error')  # Sprawdzić dlaczego nie działa
+                flash('This group already exists.', category='error')
             elif len(group) < 3:
                 flash('Name is too short', category='error')
             else:
@@ -39,10 +39,6 @@ def create_group():
                 db.session.commit()
                 flash('New group added', category='success')
 
-            # if request.form.get('action1') == 'create instance':
-            #     init(conn)
-            # if request.form.get('action2') == 'delete instance':
-            #     delete_architecture(conn)
         return get_main_page()
 
 

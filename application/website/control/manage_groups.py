@@ -1,10 +1,9 @@
 import openstack
-from falcon import secure_filename
+#from falcon import secure_filename
 from flask import Blueprint, render_template, request
 from flask_login import login_required
 
-from application.createArchitecture.Create_instance import create_image
-from . import db
+from application.website.control import db
 from .models import User_in_group
 from .permissions import user_has_permission
 from .request_to_database import show_groups_for_current_professor, get_group_with_users

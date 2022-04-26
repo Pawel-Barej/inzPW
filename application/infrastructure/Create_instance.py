@@ -1,5 +1,6 @@
-from application.createArchitecture.Create_network import *
 import openstack
+
+from application.infrastructure.Create_network import find_network
 
 conn = openstack.connect(cloud='openstack')
 
@@ -68,7 +69,7 @@ def create_server(conn, image_name, name_network, name):
 
 
 def delete_server(conn, name_server):
-    print("Delete server:")
+    print("Delete website:")
     print(find_server(conn, name_server))
     conn.compute.delete_server(find_server(conn, name_server))
 

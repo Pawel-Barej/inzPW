@@ -23,7 +23,7 @@ def create_network_with_subnets(conn, network_name, name_subnet, cidr, gateway_i
         cidr=cidr,
         gateway_ip=gateway_ip,
         dns_nameservers=['8.8.8.8'],
-        enable_dhcp=True)  # Jak coś nie działa to zaznacz że True
+        enable_dhcp=True)
 
     print(new_subnet)
 

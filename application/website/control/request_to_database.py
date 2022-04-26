@@ -1,7 +1,7 @@
 from flask_login import current_user
 from .models import Group, User, User_in_group, Uploaded_vm_image, Users_assigned, Assignment, \
     Architecture_for_assignment, Active_instance
-from . import db
+from application.website.control import db
 
 
 def show_users():
