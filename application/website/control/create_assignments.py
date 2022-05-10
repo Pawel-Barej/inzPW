@@ -2,13 +2,15 @@ from flask import Blueprint, render_template, request
 import openstack
 from flask_login import login_required, current_user
 
-from application.infrastructure.Create_network import create_network_with_subnets, create_port
-from application.infrastructure.Create_router import create_router, add_interface_to_router
+from application.infrastructure.Create_network import create_network_with_subnets, create_port, delete_network
+from application.infrastructure.Create_router import create_router, add_interface_to_router, \
+    remove_interface_from_router, delete_router
 from application.website.control import db
 from application.infrastructure.Create_instance import create_image, delete_image
 from .models import Uploaded_vm_image, Assignment, Users_assigned, Architecture_for_assignment
 from .permissions import user_has_permission
-from .request_to_database import get_your_image, show_groups_for_current_professor, get_users_in_group, get_assignment, get_architecture_for_assignment, get_assignment_cuurent_professor
+from .request_to_database import get_your_image, show_groups_for_current_professor, get_users_in_group, get_assignment, \
+    get_architecture_for_assignment, get_assignment_cuurent_professor, delete_assignment_and_architecture
 
 conn = openstack.connect(cloud='openstack')
 create_assignments = Blueprint('create_assignments', __name__)
@@ -52,6 +54,28 @@ def delete_image_from_list():
         delete_image(conn, name_image.name)
         db.session.query(Uploaded_vm_image).filter_by(id=id_image_to_delete).delete()
         db.session.commit()
+
+    return get_create_assignments_page()
+
+@create_assignments.route("/delete-assignment", methods=['GET', 'POST'])
+@login_required
+def delete_assignment_from_list():
+    if request.method == 'POST':
+        name_assignment_to_delete = request.form.get('idButtonForDelete')
+
+        architecture_date = db.session.query(Architecture_for_assignment.router_name,
+                                             Architecture_for_assignment.network_name,
+                                             Architecture_for_assignment.subnet_name,
+                                             Architecture_for_assignment.port_name).filter(
+            Assignment.name == name_assignment_to_delete,
+            Assignment.architecture_id == Architecture_for_assignment.id).first()
+
+
+        remove_interface_from_router(conn, architecture_date[0], architecture_date[2], architecture_date[3])
+        delete_router(conn, architecture_date[0])
+        delete_network(conn, architecture_date[1], architecture_date[2])
+        delete_assignment_and_architecture(name_assignment_to_delete)
+        return get_create_assignments_page()
 
     return get_create_assignments_page()
 

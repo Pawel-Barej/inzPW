@@ -227,3 +227,32 @@ function updateGroup() {
         body: formData
     }).then(r => location.reload())
 }
+
+function deleteInstance(buttonId){
+
+    const formData = new FormData();
+    let idButtonForDelete = buttonId.split("_")[1]
+    console.log(idButtonForDelete)
+
+    formData.append("idButtonForDelete", idButtonForDelete)
+    fetch("/delete-instance", {
+        method: "POST",
+        body: formData
+    }).then(r => location.reload())
+
+}
+
+function deleteAssignment(buttonId){
+
+    const formData = new FormData();
+    let idButtonForDelete = buttonId.split("-")[1]
+    console.log(idButtonForDelete)
+
+    formData.append("idButtonForDelete", idButtonForDelete)
+    fetch("/delete-assignment", {
+        method: "POST",
+        body: formData
+    }).then(r => location.reload())
+
+}
+

@@ -1,3 +1,5 @@
+import base64
+
 import openstack
 
 from application.infrastructure.Create_network import find_network
@@ -44,10 +46,10 @@ def create_image(conn, name, data, disk_format):
 def find_server(conn, name_server):
     server = conn.compute.find_server(name_server)
     for server in conn.compute.servers():
+
         if server.name == name_server:
             data_server = server
-
-    return data_server
+            return data_server
 
 
 def create_server(conn, image_name, name_network, name):
@@ -61,15 +63,15 @@ def create_server(conn, image_name, name_network, name):
         name=name,
         image_id=image.id,
         flavor_id=flavor.id,
-        networks=[{"uuid": network.id}])
-        #userdata="#!/bin/bash \n echo 'AMAZING TEST' > /root/test")
+        networks=[{"uuid": network.id}],
+        userdata=base64.b64encode("#cloud-config\npassword: mypasswd\nchpasswd: { expire: False }\nssh_pwauth: True".encode("utf-8")).decode('utf-8'))
 
     server = conn.compute.wait_for_server(server)
     print(server)
 
 
 def delete_server(conn, name_server):
-    print("Delete website:")
+    print("Delete instance:")
     print(find_server(conn, name_server))
     conn.compute.delete_server(find_server(conn, name_server))
 
@@ -100,4 +102,4 @@ def create_ip(conn):
     else:
         floating_ip = conn.network.find_available_ip()
 
-    return floating_ip.name
+    return floating_ip.floating_ip_address

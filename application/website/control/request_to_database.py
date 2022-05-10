@@ -61,7 +61,7 @@ def get_assignment_cuurent_professor():
 
 
 def get_assignment_curent_user():
-    result = db.session.query(Assignment.name, Assignment.expiration_date,
+    result = db.session.query(Assignment.name, Assignment.expiration_date, Assignment.description,
                               Architecture_for_assignment.network_name).select_from(
         Assignment).join(Users_assigned).join(Uploaded_vm_image).join(Architecture_for_assignment).filter(
         Assignment.uploaded_vm_image_id == Uploaded_vm_image.id, Users_assigned.user_id == current_user.id,
@@ -95,6 +95,10 @@ def delete_instance(instance_id):
     Active_instance.query.filter(Active_instance.id == instance_id).delete()
     db.session.commit()
 
+def get_number_server():
+    result = db.session.query(Active_instance.id).all()
+    return result
+
 
 def delete_assignment_and_architecture(assignment_name):
     id_assignment = db.session.query(Assignment.id).filter(Assignment.name == assignment_name).first()
@@ -121,6 +125,11 @@ def get_user_instance():
 
 def get_active_instance():
     results = db.session.query(Active_instance.name).all()
+
+    return results
+
+def get_removed_instance(address_ip):
+    results = db.session.query(Active_instance.name).filter(Active_instance.address_ip == address_ip).first()
 
     return results
 

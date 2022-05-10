@@ -2,14 +2,15 @@ from datetime import datetime, timedelta
 
 from flask import Blueprint, render_template, request, flash
 
-from application.infrastructure.Create_instance import create_server, add_floating_ip_to_server, create_ip
+from application.infrastructure.Create_instance import create_server, add_floating_ip_to_server, create_ip, \
+    delete_server
 from .models import Active_instance
 from application.website.control import db
 from flask_login import login_required, current_user
 
 from .permissions import user_has_permission
 from .request_to_database import get_assignment_curent_user, get_network_name_from_assignment, \
-    get_time_max, get_user_instance, get_active_instance
+    get_time_max, get_user_instance, get_active_instance, get_removed_instance, delete_instance, get_number_server
 import openstack
 
 conn = openstack.connect(cloud='openstack')
@@ -62,14 +63,25 @@ def resource_reservation():
         db.session.add(create_instance)
         db.session.commit()
 
-    print(get_active_instance())
+    print(len(get_number_server()))
 
-    if get_active_instance() != []:
+    if get_active_instance() != [] or len(get_number_server()) == 10:
         for instance in get_active_instance()[0]:
-            flash('This user already is in:', category='error')
+            flash('Too much instance', category='error')
             if instance != ("instance_for: " + current_user.email + " " + name_assignment_for_user):
                 create_server_for_user()
     else:
         create_server_for_user()
+
+    return get_assignments_page()
+
+@assignments.route('/delete-instance', methods=['POST'])
+@login_required
+def remove_instance():
+    removed_instance_address_ip = request.form.get("idButtonForDelete")
+    name_instance = get_removed_instance(removed_instance_address_ip)
+    delete_server(conn, name_instance[0])
+    Active_instance.query.filter(Active_instance.name == name_instance[0]).delete()
+    db.session.commit()
 
     return get_assignments_page()

@@ -9,6 +9,7 @@
             <th scope="col"> #</th>
             <th scope="col"> Name</th>
             <th scope="col"> Expiration date</th>
+            <th scope="col"> Description</th>
         </tr>
         </thead>
 
@@ -18,6 +19,7 @@
                 <th scope="row"> {{ loop.index }} </th>
                 <td> {{ assignment.name }} </td>
                 <td> {{ assignment.expiration_date }} </td>
+                <td> {{ assignment.description }} </td>
                 <td>
 
                     <a href=""
@@ -52,7 +54,8 @@
 
                 <td>
                     <a href="" class="btn btn-danger btn-xs float-right"
-                       onclick="return confirm('Are you sure to delete?')">Delete</a>
+                       id="button-delete-instance_{{ instance.address_ip }}"
+                       onclick="deleteInstance(this.id)">Delete</a>
 
                 </td>
 
